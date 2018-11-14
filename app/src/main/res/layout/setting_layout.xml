@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.GlobalSettingView">
+
+    <TextView
+        android:id="@+id/textViewLabelForCurrentWeekSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="当前周数"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.025"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.016" />
+
+    <EditText
+        android:id="@+id/editTextCurrentWeekSetting"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:inputType="numberSigned"
+        android:text="1"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewLabelForCurrentWeekSetting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewLabelForCurrentWeekSetting"
+        app:layout_constraintTop_toTopOf="@id/editTextCurrentWeekSetting"
+        app:layout_constraintVertical_bias="0.421"
+        android:autofillHints=""
+        android:hint=""/>
+
+    <Button
+        android:id="@+id/buttonSaveCurrentWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="保存当前周"
+        android:onClick="onClickSaveCurrentWeek"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextCurrentWeekSetting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextCurrentWeekSetting"
+        app:layout_constraintTop_toTopOf="@+id/editTextCurrentWeekSetting" />
+
+    <TextView
+        android:id="@+id/textViewAboutInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Author: Yukino Yukinoshita"
+        android:textColor="@color/color5"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAboutInfo3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/color6"
+        android:text="App Version: Unknown"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAboutInfo"
+        app:layout_constraintStart_toStartOf="@+id/textViewAboutInfo"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAboutInfo" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onClickBack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/btn_star" />
+
+    <EditText
+        android:id="@+id/editTextFeedback"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:inputType="textMultiLine"
+        android:hint="Write down your feedback here"
+        android:gravity="start"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAboutInfo3"
+        app:layout_constraintStart_toStartOf="@+id/textViewAboutInfo3"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAboutInfo3" />
+
+    <Button
+        android:id="@+id/buttonSendFeedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="发送反馈"
+        android:onClick="onClickSendFeedback"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editTextFeedback"
+        app:layout_constraintStart_toStartOf="@+id/editTextFeedback"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFeedback" />
+
+</android.support.constraint.ConstraintLayout>
