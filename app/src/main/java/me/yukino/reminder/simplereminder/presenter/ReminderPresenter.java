@@ -152,6 +152,7 @@ public class ReminderPresenter implements BasePresenter, Serializable {
                     calendar.add(Calendar.DATE, i);
                     if (calendar.getTime().getTime() > System.currentTimeMillis()) {
                         event.setEventDateTime(calendar.getTime());
+                        event.setFinish(false);
                         saveEventList();
                         return false;
                     }
@@ -164,6 +165,7 @@ public class ReminderPresenter implements BasePresenter, Serializable {
                     calendar.add(Calendar.WEEK_OF_YEAR, i);
                     if (calendar.getTime().getTime() > System.currentTimeMillis()) {
                         event.setEventDateTime(calendar.getTime());
+                        event.setFinish(false);
                         saveEventList();
                         return false;
                     }
