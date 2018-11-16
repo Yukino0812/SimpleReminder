@@ -184,9 +184,12 @@ public class EditEventView extends AppCompatActivity implements BaseView {
         final TextView textViewCurrentTime = findViewById(R.id.currentTime);
         textViewCurrentTime.setText(now);
 
-        Date dateAfter90days = new Date();
-        dateAfter90days.setTime(System.currentTimeMillis() + 90 * 24 * 60 * 60 * 1000);
-        String dateAfter90daysStr = simpleDateFormat.format(dateAfter90days);
+        Date dateAfterHalfYear = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateAfterHalfYear);
+        calendar.add(Calendar.DATE, 180);
+        dateAfterHalfYear.setTime(calendar.getTime().getTime());
+        String dateAfter90daysStr = simpleDateFormat.format(dateAfterHalfYear);
 
         final CustomDatePicker customDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override

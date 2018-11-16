@@ -54,7 +54,7 @@ public class NewEventView extends AppCompatActivity implements BaseView {
         backToMainView();
     }
 
-    public void onClickSetCurrentWeek(View view){
+    public void onClickSetCurrentWeek(View view) {
         toSettingView();
     }
 
@@ -98,7 +98,7 @@ public class NewEventView extends AppCompatActivity implements BaseView {
         this.finish();
     }
 
-    private void toSettingView(){
+    private void toSettingView() {
         Intent intent = new Intent();
         intent.setClass(me.yukino.reminder.simplereminder.view.NewEventView.this, me.yukino.reminder.simplereminder.view.GlobalSettingView.class);
         startActivity(intent);
@@ -120,9 +120,12 @@ public class NewEventView extends AppCompatActivity implements BaseView {
         final TextView textViewCurrentTime = findViewById(R.id.currentTime);
         textViewCurrentTime.setText(now);
 
-        Date dateAfter90days = new Date();
-        dateAfter90days.setTime(System.currentTimeMillis() + 90 * 24 * 60 * 60 * 1000);
-        String dateAfter90daysStr = simpleDateFormat.format(dateAfter90days);
+        Date dateAfterHalfYear = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateAfterHalfYear);
+        calendar.add(Calendar.DATE, 180);
+        dateAfterHalfYear.setTime(calendar.getTime().getTime());
+        String dateAfter90daysStr = simpleDateFormat.format(dateAfterHalfYear);
 
         final CustomDatePicker customDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
@@ -215,16 +218,16 @@ public class NewEventView extends AppCompatActivity implements BaseView {
         setWeekDay(date);
     }
 
-    private void changeFrequency(int frequency){
+    private void changeFrequency(int frequency) {
         CheckBox[] checkBoxes = new CheckBox[3];
         checkBoxes[0] = findViewById(R.id.checkBoxOnce);
         checkBoxes[1] = findViewById(R.id.checkBoxDaily);
         checkBoxes[2] = findViewById(R.id.checkBoxWeekly);
 
-        for(int i=0;i<3;++i){
-            if(i==frequency){
+        for (int i = 0; i < 3; ++i) {
+            if (i == frequency) {
                 checkBoxes[i].setChecked(true);
-            }else {
+            } else {
                 checkBoxes[i].setChecked(false);
             }
         }
