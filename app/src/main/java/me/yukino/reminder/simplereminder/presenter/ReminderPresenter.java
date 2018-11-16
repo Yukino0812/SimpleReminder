@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -145,22 +146,24 @@ public class ReminderPresenter implements BasePresenter, Serializable {
     private boolean checkIsOutOfTime(Event event) {
         switch (event.getAlertFrequency()) {
             case Event.DAILY:
-                for (int i = 0; i <= 90; ++i) {
-                    if (event.getEventDateTime().getTime() + i * 24 * 60 * 60 * 1000 > System.currentTimeMillis()) {
-                        Date newDate = new Date();
-                        newDate.setTime(event.getEventDateTime().getTime() + i * 24 * 60 * 60 * 1000);
-                        event.setEventDateTime(newDate);
+                for (int i = 0; i <= 70; ++i) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(event.getEventDateTime());
+                    calendar.add(Calendar.DATE, i);
+                    if (calendar.getTime().getTime() > System.currentTimeMillis()) {
+                        event.setEventDateTime(calendar.getTime());
                         saveEventList();
                         return false;
                     }
                 }
                 return true;
             case Event.WEEKLY:
-                for (int i = 0; i <= 13; ++i) {
-                    if (event.getEventDateTime().getTime() + i * 7 * 24 * 60 * 60 * 1000 > System.currentTimeMillis()) {
-                        Date newDate = new Date();
-                        newDate.setTime(event.getEventDateTime().getTime() + i * 7 * 24 * 60 * 60 * 1000);
-                        event.setEventDateTime(newDate);
+                for (int i = 0; i <= 10; ++i) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(event.getEventDateTime());
+                    calendar.add(Calendar.WEEK_OF_YEAR, i);
+                    if (calendar.getTime().getTime() > System.currentTimeMillis()) {
+                        event.setEventDateTime(calendar.getTime());
                         saveEventList();
                         return false;
                     }
@@ -205,7 +208,7 @@ public class ReminderPresenter implements BasePresenter, Serializable {
 
     }
 
-    public int getParsedFrequency(String content){
+    public int getParsedFrequency(String content) {
         return FrequencyParser.getFrequency(content);
     }
 
