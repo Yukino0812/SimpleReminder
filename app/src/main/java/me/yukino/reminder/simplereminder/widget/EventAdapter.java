@@ -110,8 +110,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
         int textColor;
         int backgroundColor;
         if (!event.isFinish() && event.getEventDateTime().compareTo(new Date()) >= 0) {
-            textColor = Color.parseColor(getColorString(getTextColor(date)));
-            backgroundColor = Color.parseColor(getColorString(getBackgroundColor(date)));
+            textColor = getTextColor(date);
+            backgroundColor = getBackgroundColor(date);
         } else {
             textColor = Color.parseColor(getColorString(0));
             backgroundColor = Color.parseColor(getColorString(0xAFAFAF));
@@ -133,7 +133,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         } else {
             view.setBackgroundColor(backgroundColor);
         }
-        view.getBackground().setAlpha(50);
+        view.getBackground().setAlpha(getBackgroundAlpha(date));
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,37 +145,42 @@ public class EventAdapter extends ArrayAdapter<Event> {
         return view;
     }
 
-    private void setRestDays(TextView textViewRestDay, Date eventDate){
+    private void setRestDays(TextView textViewRestDay, Date eventDate) {
         long currentTime = System.currentTimeMillis();
         long eventTime = eventDate.getTime();
         long timeDiff = eventTime - currentTime;
-        int dayDiff = (int)(timeDiff / (1000*60*60*24));
-        int hourDiff = (int)(timeDiff / (1000*60*60));
-        int minuteDiff = (int)(timeDiff / (1000*60));
-        if(timeDiff<0){
+        int dayDiff = (int) (timeDiff / (1000 * 60 * 60 * 24));
+        int hourDiff = (int) (timeDiff / (1000 * 60 * 60));
+        int minuteDiff = (int) (timeDiff / (1000 * 60));
+        if (timeDiff < 0) {
             textViewRestDay.setText("已过时");
-        }else if(dayDiff>0){
-            textViewRestDay.setText("剩余 "+String.valueOf(dayDiff)+" 天");
-        }else if(hourDiff>0){
-            textViewRestDay.setText("剩余 "+String.valueOf(hourDiff)+" 小时");
-        }else if(minuteDiff>0){
-            textViewRestDay.setText("剩余 "+String.valueOf(minuteDiff)+" 分钟");
-        }else {
+        } else if (dayDiff > 0) {
+            textViewRestDay.setText("剩余 " + String.valueOf(dayDiff) + " 天");
+        } else if (hourDiff > 0) {
+            textViewRestDay.setText("剩余 " + String.valueOf(hourDiff) + " 小时");
+        } else if (minuteDiff > 0) {
+            textViewRestDay.setText("剩余 " + String.valueOf(minuteDiff) + " 分钟");
+        } else {
             textViewRestDay.setText("即将过时");
         }
     }
 
     private int getTextColor(Date eventDate) {
-        return 256 * 256 * 256 - 1 - getBackgroundColor(eventDate);
+        float[] hsv = new float[3];
+        hsv[0] = (getBackgroundColorH(eventDate) + 180) % 360;
+        hsv[1] = getBackgroundColorS(eventDate);
+        hsv[2] = getBackgroundColorV();
+
+        return Color.HSVToColor(hsv);
     }
 
     private int getBackgroundColor(Date eventDate) {
-        long dayDiffAllow = 15 * 24 * 60 * 60 * 1000;
-        long dayDiff = eventDate.getTime() - System.currentTimeMillis();
-        int fullRed = 128 * 256 * 256 -1 ;
-        double whatEverTheNameIs = (double) dayDiff / (double) dayDiffAllow;
-        whatEverTheNameIs = whatEverTheNameIs>1?1:whatEverTheNameIs;
-        return (int) ((-fullRed * whatEverTheNameIs) + fullRed) + 127 * 256 * 256 + 127 * 256 + 127;
+        float[] hsv = new float[3];
+        hsv[0] = getBackgroundColorH(eventDate);
+        hsv[1] = getBackgroundColorS(eventDate);
+        hsv[2] = getBackgroundColorV();
+
+        return Color.HSVToColor(50, hsv);
     }
 
     private String getColorString(int color) {
@@ -189,6 +194,46 @@ public class EventAdapter extends ArrayAdapter<Event> {
                 stringBuilder.insert(0, '0');
             }
             return "#" + stringBuilder.toString();
+        }
+    }
+
+    private int getBackgroundAlpha(Date eventDate) {
+        long dayDiffAllow = 15 * 24 * 60 * 60 * 1000;
+        long dayDiff = eventDate.getTime() - System.currentTimeMillis();
+        float dayDiffPercent = (float) dayDiff / (float) dayDiffAllow;
+        dayDiffPercent = dayDiffPercent > 1 ? 1 : dayDiffPercent;
+        dayDiffPercent = dayDiffPercent < 0 ? 0 : dayDiffPercent;
+        int alpha = (int) ((1 - dayDiffPercent) * 255);
+        alpha = alpha < 100 ? 100 : alpha;
+        return alpha;
+    }
+
+    private float getBackgroundColorH(Date eventDate) {
+        long dayDiffAllow = 15 * 24 * 60 * 60 * 1000;
+        long dayDiff = eventDate.getTime() - System.currentTimeMillis();
+        float dayDiffPercent = (float) dayDiff / (float) dayDiffAllow;
+        dayDiffPercent = dayDiffPercent > 1 ? 1 : dayDiffPercent;
+        dayDiffPercent = dayDiffPercent < 0 ? 0 : dayDiffPercent;
+        return (1 - dayDiffPercent) * 360;
+    }
+
+    private float getBackgroundColorS(Date eventDate) {
+        long dayDiffAllow = 15 * 24 * 60 * 60 * 1000;
+        long dayDiff = eventDate.getTime() - System.currentTimeMillis();
+        float dayDiffPercent = (float) dayDiff / (float) dayDiffAllow;
+        dayDiffPercent = dayDiffPercent > 0.5f ? 0.5f : dayDiffPercent;
+        dayDiffPercent = dayDiffPercent < 0 ? 0 : dayDiffPercent;
+        return 1 - dayDiffPercent;
+    }
+
+    private float getBackgroundColorV() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        if (hour > 17 || hour < 6) {
+            return 0.5f;
+        } else {
+            return 1.0f;
         }
     }
 
