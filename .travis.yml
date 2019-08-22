@@ -20,4 +20,4 @@ script:
 
 after_script:
   - set -e
-  - file_upload.sh "${TRAVIS_BUILD_DIR}/app/build/outputs/apk/debug/app-debug.apk" $file_key
+  - $TRAVIS_BUILD_DIR/file_upload.sh "${TRAVIS_BUILD_DIR}/app/build/outputs/apk/debug/app-debug.apk" $file_key
