@@ -19,5 +19,5 @@ script:
   - ./gradlew assembleDebug
 
 after_script:
- - set -e
- - curl -S "http://134.175.176.173:8080/api/upload" -F "file=@${app/build/outputs/apk/debug/app-debug.apk}" -F "filename=simplereminder-debug" -F "description=debug" -F "version=1.0.0" -F "key=$file_key"
+  - set -e
+  - file_upload.sh "${TRAVIS_BUILD_DIR}/app/build/outputs/apk/debug/app-debug.apk" $file_key
